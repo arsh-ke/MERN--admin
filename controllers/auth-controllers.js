@@ -1,4 +1,3 @@
-
 //home page logic
 const home = async(req,res) => {
     try {
