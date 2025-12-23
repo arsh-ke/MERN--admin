@@ -20,6 +20,7 @@ const registration = async(req,res) => {
         }
 
         //hash password
+        //$2b$10$/b/1WoasQVzwwSFUfbOmh.bjbjo5h9rTrOTMVq74vBjGJa.MkotRe
         const hashedPassword = await bcrypt.hash(password, 10);
         await User.create({username, email, password : hashedPassword, phone})
              
