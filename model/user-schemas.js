@@ -1,22 +1,22 @@
 import mongoose from "mongoose";
-const userschema = new userschema({
+const userschema = new mongoose.Schema({
 username : {
-    type: string, 
+    type: String, 
     require: true
     
 },
 email : {
-    type: string, 
+    type: String, 
     require: true
     
 },
 phone : {
-    type: string, 
+    type: String, 
     require: true
     
 },
 password : {
-    type: string, 
+    type: String, 
     require: true
     
 },

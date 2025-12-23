@@ -1,4 +1,5 @@
 //home page logic
+import User from "../model/user-schemas.js";
 const home = async(req,res) => {
     try {
         res.send("this is the home page")
@@ -10,10 +11,14 @@ const home = async(req,res) => {
 //registration page logic
 const registration = async(req,res) => {
     try {
-        console.log(req.body);
-        const {username, email, password, phone} = req.body
-        res.send({Data})
         
+        const {username, email, password, phone} = req.body
+        const userExist = await User.findOne({email});
+        if(userExist){
+            return res.status(422).json({error: "email already exist"})
+        }
+        await User.create({username, email, password, phone})
+        res.status(201).json({message: "user registered successfully"})        
     } catch (error) {
         res.status(400).send("not found")
     }
