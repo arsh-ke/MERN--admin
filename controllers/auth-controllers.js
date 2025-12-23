@@ -1,5 +1,6 @@
 //home page logic
 import User from "../model/user-schemas.js";
+import bcrypt from "bcryptjs";
 const home = async(req,res) => {
     try {
         res.send("this is the home page")
@@ -17,8 +18,14 @@ const registration = async(req,res) => {
         if(userExist){
             return res.status(422).json({error: "email already exist"})
         }
-        await User.create({username, email, password, phone})
-        res.status(201).json({message: "user registered successfully"})        
+
+        //hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await User.create({username, email, password : hashedPassword, phone})
+             
+        res.status(201).json({message: "user registered successfully"}) 
+        
+        
     } catch (error) {
         res.status(400).send("not found")
     }
