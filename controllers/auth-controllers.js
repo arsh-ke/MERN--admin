@@ -43,5 +43,38 @@ const registration = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+// login page logic
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-export {home,registration}
+    // 1. check user exist
+    const userExist = await User.findOne({ email });
+
+    if (!userExist) {
+      return res.status(422).json({ error: "invalid credentials1" });
+    }
+
+    // 2. compare password
+    const isMatch = await bcrypt.compare(
+      password,
+      userExist.password
+    );
+
+    if (!isMatch) {
+      return res.status(422).json({ error: "Invalid email or password" });
+    }
+
+    // 3. success
+    res.status(200).json({
+      message: "Login successful",
+      userid: userExist._id.toString()
+    });
+
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+export { home, registration, login };
